@@ -1,0 +1,12 @@
+node_modules/
+.pnpm-store/
+.deploy/
+dist/
+.env
+.env.*
+!.env.example
+data/*.json
+!data/.gitkeep
+secrets/
+*.log
+.DS_Store

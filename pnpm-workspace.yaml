@@ -1,0 +1,7 @@
+allowBuilds:
+  # Native optional accelerators are not needed for this service. Keeping all
+  # lifecycle scripts disabled makes dependency installation reproducible.
+  bigint-buffer: false
+  bufferutil: false
+  esbuild: false
+  utf-8-validate: false
