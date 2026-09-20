@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <clipPath id="c"><circle cx="512" cy="512" r="474"/></clipPath>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#087cff"/><stop offset="1" stop-color="#0046a8"/></linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="#080808"/>
+  <circle cx="512" cy="512" r="492" fill="#fff"/>
+  <circle cx="512" cy="512" r="474" fill="url(#bg)"/>
+  <g clip-path="url(#c)" stroke="#111" stroke-width="12" stroke-linejoin="round">
+    <path fill="#171717" d="M120 1000V820c0-120 90-190 220-205l70-8h205l70 8c130 15 220 85 220 205v180z"/>
+    <path fill="#b77b45" d="M280 290c35-130 170-190 310-135 120 48 165 155 120 300-30 96-90 190-200 214-115 25-220-42-268-155-33-77-20-157 38-224z"/>
+    <path fill="#c58b4e" d="M235 270c-35-120 35-210 168-224 150-16 278 52 307 175-88-42-210-63-310-23-55 22-105 54-165 72z"/>
+    <path fill="#d3a25e" d="M220 250c-15-88 54-151 151-170 114-22 242 17 300 87-112-29-260-15-451 83z"/>
+    <path fill="#181818" d="M355 450c28-23 66-30 99-10l-8 35c-31-8-61-7-91 4zM570 438c31-18 69-11 96 14l-2 30c-31-13-61-17-93-7z"/>
+    <ellipse cx="426" cy="498" rx="55" ry="40" fill="#f5f5f5"/>
+    <ellipse cx="602" cy="498" rx="55" ry="40" fill="#f5f5f5"/>
+    <circle cx="442" cy="505" r="13" fill="#111" stroke="none"/>
+    <circle cx="586" cy="505" r="13" fill="#111" stroke="none"/>
+    <path fill="none" d="M470 590c40 24 78 25 119 0"/>
+    <path fill="#b77b45" d="M486 520c-10 45-20 80 26 91 42 10 63-18 54-57-6-28-21-43-80-34z"/>
+    <path fill="none" d="M350 620c65 70 230 93 319-5"/>
+    <path fill="none" stroke="#6b4327" d="M304 600c30 85 110 150 215 162 100 11 188-40 232-125"/>
+    <path fill="#111" d="M268 715c-12 64 18 125 74 151l70-67c-53-28-83-60-91-104z"/>
+    <path fill="#eee" d="M156 745h130l-18 214H143z"/>
+    <path fill="#111" d="M710 735h140l-8 220H694z"/>
+    <path fill="#eee" d="M710 765h105v150H705z"/>
+    <path fill="#111" d="M770 560c52 10 93 36 125 76l-34 28c-29-34-60-54-101-62z"/>
+    <path fill="#eee" d="M760 578l170 33-10 48-170-33z"/>
+    <circle cx="916" cy="622" r="16" fill="#f35" />
+  </g>
+  <text x="512" y="148" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="54" font-weight="900" fill="#111" transform="rotate(-8 512 148)">ALLEN BULLENSTEIN</text>
+  <text x="512" y="875" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="900" fill="#fff">RUG ME AGAIN</text>
+  <circle cx="512" cy="512" r="474" fill="none" stroke="#fff" stroke-width="18"/>
+</svg>
