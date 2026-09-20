@@ -1,0 +1,12 @@
+{
+  "name": "allen-reflections-devnet",
+  "private": true,
+  "scripts": {
+    "test": "ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-mocha": "^11.1.0",
+    "typescript": "^5.0.0"
+  }
+}
