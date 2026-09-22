@@ -40,7 +40,7 @@ describe("payout planning", () => {
 
   it("funds exactly 0.02% of buy volume from creator rewards", () => {
     const funding = createReflectionFunding(config, 100_000_000_000n, 1_000_000_000n);
-    expect(funding.reflectionPoolLamports).toBe("20_000_000");
+    expect(funding.reflectionPoolLamports).toBe("20000000");
     expect(funding.reflectionRateBps).toBe(2);
     expect(funding.retainedCreatorRewardsLamports).toBe("980_000_000");
   });
