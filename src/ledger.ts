@@ -102,5 +102,5 @@ function samePlanIntent(left: DistributionPlan, right: DistributionPlan): boolea
 }
 
 function sameFundingIntent(left: ReflectionFunding, right: ReflectionFunding): boolean {
-  return left.id === right.id && left.creatorRewardsLamports === right.creatorRewardsLamports && left.allocationBps === right.allocationBps && left.reflectionPoolLamports === right.reflectionPoolLamports && left.sourceWallet === right.sourceWallet && left.reflectionTreasury === right.reflectionTreasury;
+  return left.id === right.id && left.buyVolumeLamports === right.buyVolumeLamports && left.reflectionRateBps === right.reflectionRateBps && left.creatorRewardsLamports === right.creatorRewardsLamports && left.reflectionPoolLamports === right.reflectionPoolLamports && left.sourceWallet === right.sourceWallet && left.reflectionTreasury === right.reflectionTreasury;
 }
