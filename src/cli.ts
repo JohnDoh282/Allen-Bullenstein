@@ -7,7 +7,13 @@ import { LedgerStore } from "./ledger.js";
 import { createDistributionPlan } from "./planner.js";
 import { buildHolderSnapshot } from "./snapshot.js";
 import { fundReflectionTreasury } from "./funder.js";
-import { getCreatorRewardsBalance, loadStoredBuyEvents, scanFinalizedBuyVolume, summarizeBuyVolume, watchFinalizedBuys } from "./ingestion.js";
+import {
+  getCreatorRewardsBalance,
+  loadStoredBuyEvents,
+  scanFinalizedBuyVolume,
+  summarizeBuyVolume,
+  watchFinalizedBuys
+} from "./ingestion.js";
 
 async function main(): Promise<void> {
   const [command, ...args] = process.argv.slice(2);
@@ -21,6 +27,82 @@ async function main(): Promise<void> {
     const path = join(directory, `${snapshot.id}.json`);
     await writeFile(path, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
     console.log(JSON.stringify({ snapshotId: snapshot.id, path, holders: snapshot.holders.length, finalizedSlot: snapshot.finalizedSlot }, null, 2));
+    return;
+  }
+
+  if (command === "ingest") {
+    const pages = flags.pages ? parsePositiveInt(flags.pages, "--pages") : 5;
+    const pageSize = flags["page-size"] ? parsePositiveInt(flags["page-size"], "--page-size") : 1000;
+
+    if (flags.watch === "true") {
+      const stop = await watchFinalizedBuys(config, (event) => {
+        console.log(JSON.stringify({ type: "buy", ...event }));
+      });
+      console.log(JSON.stringify({ status: "watching", mint: config.mint, commitment: "finalized" }, null, 2));
+      const shutdown = async () => { await stop(); process.exit(0); };
+      process.once("SIGINT", shutdown);
+      process.once("SIGTERM", shutdown);
+      await new Promise<void>(() => undefined);
+      return;
+    }
+
+    await scanFinalizedBuyVolume(config, {
+      pages,
+      pageSize,
+      before: flags.before
+    });
+    const stored = await loadStoredBuyEvents(config);
+    const summary = summarizeBuyVolume(config.mint, stored, {
+      fromSlot: flags["from-slot"] ? parsePositiveInt(flags["from-slot"], "--from-slot") : undefined,
+      toSlot: flags["to-slot"] ? parsePositiveInt(flags["to-slot"], "--to-slot") : undefined
+    });
+    console.log(JSON.stringify({
+      mint: summary.mint,
+      eventCount: summary.eventCount,
+      buyVolumeLamports: summary.buyVolumeLamports,
+      reflectionRateBps: summary.reflectionRateBps,
+      reflectionPoolLamports: summary.reflectionPoolLamports,
+      fromSlot: flags["from-slot"] ?? null,
+      toSlot: flags["to-slot"] ?? null
+    }, null, 2));
+    return;
+  }
+
+  if (command === "fund-auto") {
+    const pages = flags.pages ? parsePositiveInt(flags.pages, "--pages") : 5;
+    const pageSize = flags["page-size"] ? parsePositiveInt(flags["page-size"], "--page-size") : 1000;
+
+    await scanFinalizedBuyVolume(config, {
+      pages,
+      pageSize,
+      before: flags.before
+    });
+    const stored = await loadStoredBuyEvents(config);
+    const summary = summarizeBuyVolume(config.mint, stored, {
+      fromSlot: flags["from-slot"] ? parsePositiveInt(flags["from-slot"], "--from-slot") : undefined,
+      toSlot: flags["to-slot"] ? parsePositiveInt(flags["to-slot"], "--to-slot") : undefined
+    });
+    const creatorRewardsLamports = await getCreatorRewardsBalance(config);
+    if (summary.eventCount === 0) throw new Error("No finalized BUY events found in the requested slot window.");
+
+    const funding = await fundReflectionTreasury(
+      config,
+      new LedgerStore(config.dataDir),
+      BigInt(summary.buyVolumeLamports),
+      creatorRewardsLamports,
+      flags.broadcast === "true"
+    );
+    console.log(JSON.stringify({
+      fundingId: funding.id,
+      broadcast: flags.broadcast === "true",
+      eventCount: summary.eventCount,
+      buyVolumeLamports: funding.buyVolumeLamports,
+      reflectionRateBps: funding.reflectionRateBps,
+      reflectionPoolLamports: funding.reflectionPoolLamports,
+      creatorRewardsBalanceLamports: creatorRewardsLamports.toString(),
+      retainedCreatorRewardsLamports: funding.retainedCreatorRewardsLamports,
+      status: funding.status
+    }, null, 2));
     return;
   }
 
@@ -39,7 +121,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  if (command === "ingest") {\n    const pages = flags.pages ? parsePositiveInt(flags.pages, "--pages") : 5;\n    const pageSize = flags["page-size"] ? parsePositiveInt(flags["page-size"], "--page-size") : 1000;\n    if (flags.watch === "true") {\n      const stop = await watchFinalizedBuys(config, (event) => {\n        console.log(JSON.stringify({ type: "buy", ...event }));\n      });\n      console.log(JSON.stringify({ status: "watching", mint: config.mint, commitment: "finalized" }, null, 2));\n      const shutdown = async () => { await stop(); process.exit(0); };\n      process.once("SIGINT", shutdown);\n      process.once("SIGTERM", shutdown);\n      await new Promise<void>(() => undefined);\n      return;\n    }\n    await scanFinalizedBuyVolume(config, { pages, pageSize, before: flags.before });\n    const stored = await loadStoredBuyEvents(config);\n    const summary = summarizeBuyVolume(config.mint, stored, {\n      fromSlot: flags["from-slot"] ? parsePositiveInt(flags["from-slot"], "--from-slot") : undefined,\n      toSlot: flags["to-slot"] ? parsePositiveInt(flags["to-slot"], "--to-slot") : undefined\n    });\n    console.log(JSON.stringify({ mint: summary.mint, eventCount: summary.eventCount, buyVolumeLamports: summary.buyVolumeLamports, reflectionRateBps: summary.reflectionRateBps, reflectionPoolLamports: summary.reflectionPoolLamports, fromSlot: flags["from-slot"] ?? null, toSlot: flags["to-slot"] ?? null }, null, 2));\n    return;\n  }\n\n  if (command === "fund-auto") {\n    const pages = flags.pages ? parsePositiveInt(flags.pages, "--pages") : 5;\n    const pageSize = flags["page-size"] ? parsePositiveInt(flags["page-size"], "--page-size") : 1000;\n    await scanFinalizedBuyVolume(config, { pages, pageSize, before: flags.before });\n    const stored = await loadStoredBuyEvents(config);\n    const summary = summarizeBuyVolume(config.mint, stored, {\n      fromSlot: flags["from-slot"] ? parsePositiveInt(flags["from-slot"], "--from-slot") : undefined,\n      toSlot: flags["to-slot"] ? parsePositiveInt(flags["to-slot"], "--to-slot") : undefined\n    });\n    const creatorRewardsLamports = await getCreatorRewardsBalance(config);\n    if (summary.eventCount === 0) throw new Error("No finalized BUY events found in the requested slot window.");\n    const funding = await fundReflectionTreasury(config, new LedgerStore(config.dataDir), BigInt(summary.buyVolumeLamports), creatorRewardsLamports, flags.broadcast === "true");\n    console.log(JSON.stringify({ fundingId: funding.id, broadcast: flags.broadcast === "true", eventCount: summary.eventCount, buyVolumeLamports: funding.buyVolumeLamports, reflectionRateBps: funding.reflectionRateBps, reflectionPoolLamports: funding.reflectionPoolLamports, creatorRewardsBalanceLamports: creatorRewardsLamports.toString(), retainedCreatorRewardsLamports: funding.retainedCreatorRewardsLamports, status: funding.status }, null, 2));\n    return;\n  }\n\n  if (command === "fund") {
+  if (command === "fund") {
     const buyVolume = parseLamports(requiredFlag(flags, "buy-volume-lamports"));
     const creatorRewards = parseLamports(requiredFlag(flags, "creator-rewards-lamports"));
     const funding = await fundReflectionTreasury(config, new LedgerStore(config.dataDir), buyVolume, creatorRewards, flags.broadcast === "true");
@@ -88,7 +170,14 @@ function requiredFlag(flags: Record<string, string>, name: string): string {
   return value;
 }
 
-function parsePositiveInt(value: string, flag: string): number {\n  if (!/^\\d+$/.test(value)) throw new Error(flag + " must be a positive integer.");\n  const parsed = Number(value);\n  if (!Number.isSafeInteger(parsed) || parsed <= 0) throw new Error(flag + " must be a positive integer.");\n  return parsed;\n}\n\nfunction parseLamports(value: string): bigint {
+function parsePositiveInt(value: string, flag: string): number {
+  if (!/^\d+$/.test(value)) throw new Error(`${flag} must be a positive integer.`);
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) throw new Error(`${flag} must be a positive integer.`);
+  return parsed;
+}
+
+function parseLamports(value: string): bigint {
   if (!/^\d+$/.test(value) || BigInt(value) <= 0n) throw new Error("--lamports values must be positive integers.");
   return BigInt(value);
 }
