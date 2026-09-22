@@ -247,8 +247,11 @@ export async function loadStoredBuyEvents(config: AppConfig): Promise<FinalizedB
   }
 }
 
-export function summarizeBuyVolume(mint: string, events: FinalizedBuyEvent[]): BuyVolumeWindow {
-  const filtered = events.filter((event) => event.mint === mint);
+export function summarizeBuyVolume(mint: string, events: FinalizedBuyEvent[], options: { fromSlot?: number; toSlot?: number } = {}): BuyVolumeWindow {
+  const filtered = events.filter((event) => event.mint === mint &&
+    (options.fromSlot === undefined || event.slot >= options.fromSlot) &&
+    (options.toSlot === undefined || event.slot <= options.toSlot)
+  );
   const total = filtered.reduce((sum, event) => sum + BigInt(event.buyVolumeLamports), 0n);
   return {
     mint,
