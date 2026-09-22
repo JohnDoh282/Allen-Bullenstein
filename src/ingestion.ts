@@ -1,6 +1,6 @@
 import { appendFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { Connection, PublicKey, type Logs, type LogsCallback } from "@solana/web3.js";
+import { Connection, PublicKey, type Logs } from "@solana/web3.js";
 import type { AppConfig } from "./config.js";
 
 const PUMP_PROGRAM_ID = new PublicKey("6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P");
