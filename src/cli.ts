@@ -3,10 +3,10 @@ import { basename, join } from "node:path";
 import { loadConfig } from "./config.js";
 import type { HolderSnapshot } from "./domain.js";
 import { executePlan } from "./executor.js";
-import { fundReflectionTreasury } from "./funder.js";
 import { LedgerStore } from "./ledger.js";
 import { createDistributionPlan } from "./planner.js";
 import { buildHolderSnapshot } from "./snapshot.js";
+import { fundReflectionTreasury } from "./funder.js";
 
 async function main(): Promise<void> {
   const [command, ...args] = process.argv.slice(2);
@@ -39,9 +39,19 @@ async function main(): Promise<void> {
   }
 
   if (command === "fund") {
+    const buyVolume = parseLamports(requiredFlag(flags, "buy-volume-lamports"));
     const creatorRewards = parseLamports(requiredFlag(flags, "creator-rewards-lamports"));
-    const funding = await fundReflectionTreasury(config, new LedgerStore(config.dataDir), creatorRewards, flags.broadcast === "true");
-    console.log(JSON.stringify({ fundingId: funding.id, broadcast: flags.broadcast === "true", creatorRewardsLamports: funding.creatorRewardsLamports, reflectionPoolLamports: funding.reflectionPoolLamports, retainedCreatorRewardsLamports: funding.retainedCreatorRewardsLamports, status: funding.status }, null, 2));
+    const funding = await fundReflectionTreasury(config, new LedgerStore(config.dataDir), buyVolume, creatorRewards, flags.broadcast === "true");
+    console.log(JSON.stringify({
+      fundingId: funding.id,
+      broadcast: flags.broadcast === "true",
+      buyVolumeLamports: funding.buyVolumeLamports,
+      reflectionRateBps: funding.reflectionRateBps,
+      creatorRewardsLamports: funding.creatorRewardsLamports,
+      reflectionPoolLamports: funding.reflectionPoolLamports,
+      retainedCreatorRewardsLamports: funding.retainedCreatorRewardsLamports,
+      status: funding.status
+    }, null, 2));
     return;
   }
 
@@ -52,7 +62,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  throw new Error("Usage: snapshot | fund --creator-rewards-lamports <integer> [--broadcast] | plan --snapshot <file> --funding <id> | execute --job <id> [--broadcast]");
+  throw new Error("Usage: snapshot | fund --buy-volume-lamports <integer> --creator-rewards-lamports <integer> [--broadcast] | plan --snapshot <file> --funding <id> | execute --job <id> [--broadcast]");
 }
 
 function readFlags(args: string[]): Record<string, string> {
@@ -78,7 +88,7 @@ function requiredFlag(flags: Record<string, string>, name: string): string {
 }
 
 function parseLamports(value: string): bigint {
-  if (!/^\d+$/.test(value) || BigInt(value) <= 0n) throw new Error("--pool-lamports must be a positive integer number of lamports.");
+  if (!/^\d+$/.test(value) || BigInt(value) <= 0n) throw new Error("--lamports values must be positive integers.");
   return BigInt(value);
 }
 
@@ -89,6 +99,6 @@ async function readSnapshot(path: string): Promise<HolderSnapshot> {
 }
 
 main().catch((error: unknown) => {
-  console.error(error instanceof Error ? error.message : error);
+  console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
