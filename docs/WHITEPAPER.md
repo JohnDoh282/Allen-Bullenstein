@@ -2,7 +2,8 @@
 
 **Version 1.0 — September 2026**  
 **Network:** Solana  
-**Project type:** Community-driven meme token and entertainment ecosystem
+**Project type:** Community-driven meme token and entertainment ecosystem  
+**Total supply:** **1,000,000,000 AB tokens**
 
 > **Status notice:** This document describes the current project architecture, planned mechanisms, and development roadmap. Features identified as planned are not represented as live on-chain functionality until deployed, tested, and independently verifiable.
 
@@ -29,6 +30,10 @@ The Allen Bullenstein ecosystem is organized into five layers:
 Solana's token architecture supports mint accounts, token accounts, transfers, authorities, and optional Token-2022 extensions. Extensions are configured as part of mint/account initialization and therefore must be selected deliberately before deployment. citeturn0search0turn0search1
 
 ## 3. Token & Distribution Model
+
+### 3.0 Supply Specification
+
+The current project profile specifies a total token supply of **1,000,000,000 AB tokens**. The final mint configuration, decimals, mint authority, and any supply-control parameters will be published with the production mint information before launch. Solana token mints explicitly define supply and decimals, and minting increases the mint supply while burning decreases it. citeturn0search0turn0search2
 
 ### 3.1 Planned holder reflection specification
 
