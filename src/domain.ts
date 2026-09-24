@@ -43,8 +43,9 @@ export interface DistributionPlan {
 export interface ReflectionFunding {
   id: string;
   createdAt: string;
+  buyVolumeLamports: string;
+  reflectionRateBps: number;
   creatorRewardsLamports: string;
-  allocationBps: number;
   reflectionPoolLamports: string;
   retainedCreatorRewardsLamports: string;
   sourceWallet: string;
