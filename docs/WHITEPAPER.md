@@ -178,11 +178,14 @@ No contract address should be considered official until published through the pr
 - Complete launch and operational documentation.
 - Perform devnet testing of distribution infrastructure.
 
-### Phase II — Market & Community
+### Phase II — Market, Community & Supply Reduction
 - Launch through the selected venue.
 - Publish verified contract information.
 - Expand community content and interactive experiences.
 - Establish monitoring and public status infrastructure.
+- Execute a planned one-time burn of **20,000,000 AB**, representing **2% of the initial 1,000,000,000 AB supply**, using identified non-circulating tokens.
+- Publish and independently verify the burn transaction and resulting total supply.
+- No replacement minting is permitted after initial supply seeding; the planned burn permanently reduces total supply.
 
 ### Phase III — Distribution Infrastructure
 - Complete production implementation of the specified reflection mechanism.
