@@ -61,13 +61,13 @@
 </section>
 
 <section class="game section" id="game">
-  <div class="section-top"><span>03 / ALLEN RUGPULL SIMULATOR</span><span>FICTIONAL PAPER TRADING ONLY</span></div>
+  <div class="section-top"><span>03 / MARKET SIMULATION TERMINAL</span><span>OFF-CHAIN SIMULATION / NO SETTLEMENT</span></div>
   <div class="game-head">
-    <div><p class="kicker">THE TERMINAL IS OPEN</p><h2>MAKE A<br><em>TERRIBLE TRADE.</em></h2></div>
-    <p>Step inside Allen's fictional trading desk. Trade fake tokens with a fake balance while Allen watches the chart, smokes his cigarette and drinks Diet Coke. No real transactions are made.</p>
+    <div><p class="kicker">OFF-CHAIN EXECUTION ENVIRONMENT</p><h2>MAKE A<br><em>TERRIBLE TRADE.</em></h2></div>
+    <p>Interactive paper-trading environment with simulated balances, deterministic UI accounting and live chart animation. Wallet connectivity is display-only; no transaction signing or settlement occurs.</p>
   </div>
   <div class="wallet-bar">
-    <div><span>WALLET STATUS</span><b id="wallet-address">NOT CONNECTED</b></div>
+    <div><span>WALLET CONNECTION</span><b id="wallet-address">DISCONNECTED</b></div>
     <div class="wallet-actions"><button id="phantom-connect" type="button">CONNECT PHANTOM</button><button id="metamask-connect" type="button">CONNECT METAMASK</button><button id="wallet-disconnect" class="wallet-disconnect" type="button">DISCONNECT</button></div>
   </div>
   <div class="game-shell">
@@ -77,20 +77,20 @@
       <div class="character-caption"><b>ALLEN</b><span>STATUS: STILL BULLISH / JOB STATUS: UNKNOWN</span></div>
     </aside>
     <div class="terminal">
-      <div class="terminal-bar"><span>ALLEN / FAKE-SOL TERMINAL</span><span>● MARKET LIVE</span></div>
+      <div class="terminal-bar"><span>ALLEN / SIMULATION TERMINAL</span><span>● SIMULATION ACTIVE</span></div>
       <div class="market-grid">
-        <div class="market-chart"><div class="chart-label"><span id="price">$1.00</span><small>FAKE/USDC · LIVE SIMULATION</small></div><canvas id="trade-chart" width="900" height="360" aria-label="Animated fictional token price chart"></canvas></div>
+        <div class="market-chart"><div class="chart-label"><span id="price">$1.00</span><small>FAKE/USDC · OFF-CHAIN SIMULATION</small></div><canvas id="trade-chart" width="900" height="360" aria-label="Animated fictional token price chart"></canvas></div>
         <div class="trade-panel">
-          <div class="balance"><span>BALANCE</span><b id="balance">10.00 SOL</b></div><div class="position"><span>POSITION</span><span id="position">0.00 FAKE</span></div>
+          <div class="balance"><span>SIMULATED BALANCE</span><b id="balance">10.00 SOL</b></div><div class="position"><span>SIMULATED POSITION</span><span id="position">0.00 FAKE</span></div>
           <label for="trade-size">TRADE SIZE</label><input id="trade-size" type="range" min="0.10" max="10" step="0.10" value="1"><output id="trade-size-value">1.00 SOL</output>
           <div class="trade-buttons"><button id="buy-btn" type="button">BUY FAKE</button><button id="sell-btn" class="sell" type="button">SELL POSITION</button></div>
           <button id="reset-btn" class="reset" type="button">RESET WALLET</button><p id="game-message">Fresh wallet. Same terrible decisions.</p>
         </div>
       </div>
-      <div class="trade-feed"><span>SIMULATION MODE</span><span>NO REAL FUNDS / NO TRANSACTIONS</span></div>
+      <div class="trade-feed"><span>OFF-CHAIN MODE</span><span>NO SETTLEMENT / NO REAL FUNDS</span></div>
     </div>
   </div>
-  <p class="game-disclaimer">Fictional paper-trading game for entertainment. Connecting a wallet only displays the wallet address; this game does not request or send transactions.</p>
+  <p class="game-disclaimer">Off-chain simulation for entertainment and interface demonstration. Wallet connectivity displays the public address only; the terminal does not request signatures, submit transactions, or move funds.</p>
 </section>
 
 <section class="roadmap section" id="roadmap">
