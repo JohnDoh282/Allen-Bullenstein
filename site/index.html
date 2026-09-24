@@ -60,6 +60,39 @@
   <p class="disclaimer">Current status: <strong>planned / not yet active on-chain.</strong> Buys below 1 SOL do not qualify. Sells do not trigger reflections under the current specification. Creator fees remain separate and are not part of the reflection calculation. The final Solana implementation must enforce these rules on-chain before this feature is represented as live.</p>
 </section>
 
+<section class="game section" id="game">
+  <div class="section-top"><span>03 / ALLEN RUGPULL SIMULATOR</span><span>FICTIONAL PAPER TRADING ONLY</span></div>
+  <div class="game-head">
+    <div><p class="kicker">THE TERMINAL IS OPEN</p><h2>MAKE A<br><em>TERRIBLE TRADE.</em></h2></div>
+    <p>Step inside Allen's fictional trading desk. Trade fake tokens with a fake balance while Allen watches the chart, smokes his cigarette and drinks Diet Coke. No real transactions are made.</p>
+  </div>
+  <div class="wallet-bar">
+    <div><span>WALLET STATUS</span><b id="wallet-address">NOT CONNECTED</b></div>
+    <div class="wallet-actions"><button id="phantom-connect" type="button">CONNECT PHANTOM</button><button id="metamask-connect" type="button">CONNECT METAMASK</button><button id="wallet-disconnect" class="wallet-disconnect" type="button">DISCONNECT</button></div>
+  </div>
+  <div class="game-shell">
+    <aside class="game-character">
+      <div class="character-screen"><img src="assets/allen_bullenstein.png" alt="Allen Bullenstein at his fictional trading desk"></div>
+      <div class="cigarette" aria-hidden="true">🚬</div><div class="diet-coke" aria-hidden="true">DIET COKE</div>
+      <div class="character-caption"><b>ALLEN</b><span>STATUS: STILL BULLISH / JOB STATUS: UNKNOWN</span></div>
+    </aside>
+    <div class="terminal">
+      <div class="terminal-bar"><span>ALLEN / FAKE-SOL TERMINAL</span><span>● MARKET LIVE</span></div>
+      <div class="market-grid">
+        <div class="market-chart"><div class="chart-label"><span id="price">$1.00</span><small>FAKE/USDC · LIVE SIMULATION</small></div><canvas id="trade-chart" width="900" height="360" aria-label="Animated fictional token price chart"></canvas></div>
+        <div class="trade-panel">
+          <div class="balance"><span>BALANCE</span><b id="balance">10.00 SOL</b></div><div class="position"><span>POSITION</span><span id="position">0.00 FAKE</span></div>
+          <label for="trade-size">TRADE SIZE</label><input id="trade-size" type="range" min="0.10" max="10" step="0.10" value="1"><output id="trade-size-value">1.00 SOL</output>
+          <div class="trade-buttons"><button id="buy-btn" type="button">BUY FAKE</button><button id="sell-btn" class="sell" type="button">SELL POSITION</button></div>
+          <button id="reset-btn" class="reset" type="button">RESET WALLET</button><p id="game-message">Fresh wallet. Same terrible decisions.</p>
+        </div>
+      </div>
+      <div class="trade-feed"><span>SIMULATION MODE</span><span>NO REAL FUNDS / NO TRANSACTIONS</span></div>
+    </div>
+  </div>
+  <p class="game-disclaimer">Fictional paper-trading game for entertainment. Connecting a wallet only displays the wallet address; this game does not request or send transactions.</p>
+</section>
+
 <section class="roadmap section" id="roadmap">
   <div class="section-top"><span>03 / ROADMAP</span><span>THE LONG GAME</span></div>
   <div class="rules">
